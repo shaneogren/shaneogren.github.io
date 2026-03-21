@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shane Ogren — Painting</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="site-title">Shane Ogren</a>
+    <nav>
+      <a href="index.html" class="active">Painting</a>
+      <a href="paper.html">Paper</a>
+      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <div id="gallery" class="gallery"></div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox-overlay" role="dialog" aria-modal="true" aria-label="Artwork viewer">
+    <button id="lightbox-close" class="lightbox-btn" aria-label="Close">×</button>
+    <button id="lightbox-prev"  class="lightbox-btn" aria-label="Previous">‹</button>
+    <button id="lightbox-next"  class="lightbox-btn" aria-label="Next">›</button>
+    <div class="lightbox-inner">
+      <canvas id="lightbox-canvas"></canvas>
+      <div class="lightbox-info">
+        <div class="lb-title" id="lightbox-title"></div>
+        <div class="lb-meta"  id="lightbox-meta"></div>
+        <div class="lb-purchase" id="lightbox-purchase"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data/paintings.js"></script>
+  <script src="js/sold.js"></script>
+  <script src="js/main.js"></script>
+  <script>initGallery(PAINTINGS);</script>
+
+</body>
+</html>

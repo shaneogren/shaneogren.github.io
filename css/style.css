@@ -1,0 +1,368 @@
+/* ── Reset ────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+
+body {
+  font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  background: #ffffff;
+  color: #111111;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Header & Nav ─────────────────────────────────────────────────────────── */
+
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 32px 40px 24px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.site-title {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+nav {
+  display: flex;
+  gap: 28px;
+}
+
+nav a {
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #555;
+  transition: color 0.15s;
+}
+
+nav a:hover,
+nav a.active {
+  color: #111;
+}
+
+/* ── Gallery Grid ─────────────────────────────────────────────────────────── */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 48px 32px;
+  align-items: start;
+  padding: 48px 40px 80px;
+}
+
+.gallery-item {
+  cursor: pointer;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* prevent selection / dragging */
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.artwork-info {
+  margin-top: 10px;
+}
+
+.artwork-title {
+  font-style: italic;
+  font-size: 13px;
+  color: #111;
+}
+
+.artwork-meta {
+  font-size: 12px;
+  color: #999;
+  margin-top: 3px;
+}
+
+/* ── Lightbox ─────────────────────────────────────────────────────────────── */
+
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.93);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.lightbox-overlay.active {
+  display: flex;
+}
+
+.lightbox-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 92vw;
+}
+
+/* Canvas is what we render into — not a plain <img> — making right-click saving harder */
+#lightbox-canvas {
+  display: block;
+  max-width: 100%;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.lightbox-info {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.lightbox-info .lb-title {
+  font-style: italic;
+  font-size: 15px;
+  color: #ddd;
+}
+
+.lightbox-info .lb-meta {
+  font-size: 12px;
+  color: #777;
+  margin-top: 5px;
+  letter-spacing: 0.03em;
+}
+
+/* Lightbox buttons */
+.lightbox-btn {
+  position: fixed;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+  padding: 12px;
+}
+
+.lightbox-btn:hover {
+  opacity: 1;
+}
+
+#lightbox-close {
+  top: 20px;
+  right: 28px;
+  font-size: 30px;
+}
+
+#lightbox-prev {
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  font-size: 40px;
+}
+
+#lightbox-next {
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  font-size: 40px;
+}
+
+/* ── Static pages (About, Contact) ───────────────────────────────────────── */
+
+.page-content {
+  max-width: 580px;
+  margin: 64px auto 100px;
+  padding: 0 40px;
+  line-height: 1.85;
+}
+
+.page-content h1 {
+  font-size: 17px;
+  font-weight: 500;
+  margin-bottom: 28px;
+  letter-spacing: 0.01em;
+}
+
+.page-content p {
+  margin-bottom: 18px;
+  color: #333;
+  font-size: 14px;
+}
+
+.page-content ul {
+  list-style: none;
+  margin-bottom: 18px;
+}
+
+.page-content ul li {
+  color: #555;
+  font-size: 13px;
+  padding: 4px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.page-content ul li:last-child {
+  border-bottom: none;
+}
+
+/* ── Contact form ─────────────────────────────────────────────────────────── */
+
+.contact-form {
+  margin-top: 8px;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #888;
+  margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: #111;
+  outline: none;
+  border-radius: 0;
+  transition: border-color 0.15s;
+  background: #fff;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #111;
+}
+
+.form-group textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.submit-btn {
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 11px 36px;
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.submit-btn:hover {
+  background: #444;
+}
+
+.form-success {
+  display: none;
+  margin-top: 20px;
+  color: #555;
+  font-size: 14px;
+}
+
+/* ── Sold / Buy ───────────────────────────────────────────────────────────── */
+
+/* Grid: subtle "Sold" text below artwork meta */
+.sold-tag {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #bbb;
+  margin-top: 5px;
+}
+
+
+/* Lightbox: purchase area */
+.lb-purchase {
+  margin-top: 18px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lb-buy-btn {
+  display: inline-block;
+  padding: 9px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ccc;
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-family: inherit;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.lb-buy-btn:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+  color: #fff;
+}
+
+.lb-price {
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  color: #888;
+}
+
+.lb-sold-tag {
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  header {
+    flex-direction: column;
+    gap: 18px;
+    padding: 24px 20px 20px;
+  }
+
+  nav {
+    gap: 20px;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+    gap: 28px 16px;
+    padding: 28px 20px 60px;
+  }
+
+  .page-content {
+    padding: 0 20px;
+    margin: 48px auto 80px;
+  }
+
+  #lightbox-prev { left: 4px; }
+  #lightbox-next { right: 4px; }
+}
