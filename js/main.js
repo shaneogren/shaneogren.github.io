@@ -3,7 +3,6 @@ function initGallery(artworks) {
   if (!container || !artworks || artworks.length === 0) return;
 
   let currentIndex = 0;
-  let soldMap = new Map(); // populated async after gallery renders
 
   // Derive a slug from an image path: "images/painting/foo.webp" → "foo"
   function slugOf(art) {
@@ -44,30 +43,6 @@ function initGallery(artworks) {
     if (e.target.tagName === "IMG") e.preventDefault();
   });
 
-  // ── Sold status ──────────────────────────────────────────────────────────
-
-  if (typeof loadSoldStatus === "function") {
-    loadSoldStatus().then(map => {
-      soldMap = map;
-      // Apply sold badges to grid items
-      map.forEach((isSold, id) => {
-        if (!isSold) return;
-        const item = container.querySelector(`[data-id="${id}"]`);
-        if (!item) return;
-        item.classList.add("is-sold");
-        const info = item.querySelector(".artwork-info");
-        const tag = document.createElement("div");
-        tag.className = "sold-tag";
-        tag.textContent = "Sold";
-        info.appendChild(tag);
-      });
-      // Refresh lightbox purchase area if it's currently open
-      if (document.getElementById("lightbox").classList.contains("active")) {
-        updatePurchaseArea();
-      }
-    });
-  }
-
   // ── Lightbox ─────────────────────────────────────────────────────────────
 
   const overlay      = document.getElementById("lightbox");
@@ -75,7 +50,6 @@ function initGallery(artworks) {
   const ctx          = canvas.getContext("2d");
   const titleEl      = document.getElementById("lightbox-title");
   const metaEl       = document.getElementById("lightbox-meta");
-  const purchaseEl   = document.getElementById("lightbox-purchase");
 
   // URL uses numeric index to avoid slug collisions: #7, #42, etc.
   // Incoming slug-based links (e.g. shared from outside) are also supported.
@@ -150,25 +124,6 @@ function initGallery(artworks) {
     ctx.restore();
   }
 
-  function updatePurchaseArea() {
-    if (!purchaseEl) return;
-    const art = artworks[currentIndex];
-    const isSold = soldMap.get(slugOf(art));
-    if (isSold) {
-      purchaseEl.innerHTML = `<span class="lb-sold-tag">Sold</span>`;
-    } else if (art.price && art.stripeLink) {
-      const isMock = art.stripeLink === "checkout.html";
-      const href = isMock
-        ? `checkout.html?title=${encodeURIComponent(art.title)}&price=${encodeURIComponent(art.price)}&image=${encodeURIComponent(new URL(art.image, location.href).href)}`
-        : art.stripeLink;
-      purchaseEl.innerHTML = `<a class="lb-buy-btn" href="${href}" target="_blank" rel="noopener">Buy &middot; ${art.price}</a>`;
-    } else if (art.price) {
-      purchaseEl.innerHTML = `<span class="lb-price">${art.price}</span>`;
-    } else {
-      purchaseEl.innerHTML = "";
-    }
-  }
-
   function renderFrame() {
     const art = artworks[currentIndex];
     const renderIndex = currentIndex;
@@ -188,7 +143,6 @@ function initGallery(artworks) {
     const meta = [art.year, art.medium, art.dimensions].filter(Boolean).join(" · ");
     titleEl.textContent = art.title;
     metaEl.textContent  = meta;
-    updatePurchaseArea();
   }
 
   // Controls
